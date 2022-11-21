@@ -1,0 +1,12 @@
+import appCRUD
+######## OPEN & RUN FILE TO CREATE TABLES FOR DATABASE ########
+
+
+
+
+####### OPEN & RUN FILE TO POPULATE CREATED TABLES #######
+
+
+
+####### OPEN & RUN CRUD APP TO WORK WITH DATABASE #######
+appCRUD()

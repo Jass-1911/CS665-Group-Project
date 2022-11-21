@@ -1,12 +1,14 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-
-#######---ADDING FOR LATER---#######
-#import mysql.connector 
+import mysql.connector 
 #db_connection = mysql.connector.connect(
-#    host="",
-#    user="",
-#    password="")
+    #host="",
+    #user="",
+    #password="",
+    #database="mydatabase"
+    # )
+
+#dbCursor = db_connection.cursor()
 
 
 #######------REFERENCES-------#######
@@ -52,15 +54,19 @@ import tkinter.ttk as ttk
 ###------Button Functions------###
 def createTuple():
     print("created")
+    #dbCursor.execute("INSERT INTO TABLE")
 
-def readRel():
+def readTable():
     print("Read.")
+    #dbCursor.execute("SELECT * FROM TABLE")
 
-def updateTuple():
+def updateTable():
     print("Updated")
+    #dbCursor.execute("UPDATE TABLE SET * WHERE *")
 
-def deleteTuple():
+def deleteRel():
     print("deleted")
+    #dbCursor.execute("DELETE FROM TABLE WHERE")
 
 
 
@@ -68,6 +74,40 @@ def deleteTuple():
 window= tk.Tk() #Window Creation
 window.title("Database CRUD Application") #Titling Window
 window.geometry("750x500") #Window Size
+
+###### Labels & Entry ######
+
+#------Label 1------#
+label1 = tk.Label(text="Label 1")
+entry1 = tk.Entry()
+label1.pack()
+entry1.pack()
+
+#------Label 2------#
+label2 = tk.Label(text="Label 2")
+entry2 = tk.Entry()
+label2.pack()
+entry2.pack()
+
+#------Label 3------#
+label3 = tk.Label(text="Label 3")
+entry3 = tk.Entry()
+label3.pack()
+entry3.pack()
+
+#------Label 4------#
+label4 = tk.Label(text="Label 4")
+entry4 = tk.Entry()
+label4.pack()
+entry4.pack()
+
+#------Label 5------#
+label5 = tk.Label(text="Label 5")
+entry5 = tk.Entry()
+label5.pack()
+entry5.pack()
+
+###### BUTTONS FOR CRUD OPERATIONS ######
 
 #------Create Button------#
 but_create=tk.Button(
@@ -87,7 +127,7 @@ but_read=tk.Button(
     height=5,
     bg="cyan",
     fg="purple",
-    command=readRel
+    command=readTable
 )
 but_read.pack()
 
@@ -98,7 +138,7 @@ but_upd=tk.Button(
     height=5,
     bg="cyan",
     fg="purple",
-    command=updateTuple
+    command=updateTable
 )
 but_upd.pack()
 
@@ -109,7 +149,7 @@ but_del=tk.Button(
     height=5,
     bg="cyan",
     fg="purple",
-    command=deleteTuple
+    command=deleteRel
 )
 but_del.pack()
 
