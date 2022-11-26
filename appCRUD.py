@@ -3,10 +3,11 @@ import tkinter.ttk as ttk
 import mysql.connector
 from tkinter import messagebox
 
+# for now just use my own sql database. may need to fill some tables with data - Jenny
 db_connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password='StAnLoOnA5',
+    host="192.168.1.2",
+    user="newuser",
+    password='QuAcKiTy2022!',
     database='testdb'
 )
 
@@ -128,26 +129,26 @@ allLabelEntries = tk.Frame(tab3left)
 allLabelEntries.pack(side='top', anchor='nw')
 
 tab3Frame1 = tk.Frame(allLabelEntries)
-custIDLabel = tk.Label(tab3Frame1, text="CustomerID *", font=(15)).pack(side='left')
-custIDEntry = tk.Entry(tab3Frame1, width=15)
+custIDLabel = tk.Label(tab3Frame1, text="CustomerID *", font=('Arial',12)).pack(side='left')
+custIDEntry = tk.Entry(tab3Frame1, width=20)
 custIDEntry.pack(side='left')
 tab3Frame1.pack(side='top', pady=10)
 
 tab3Frame2 = tk.Frame(allLabelEntries)
-firstnameLabel = tk.Label(tab3Frame2, text="First name ", font=(15)).pack(side='left')
-firstnameEntry = tk.Entry(tab3Frame2, width=15)
+firstnameLabel = tk.Label(tab3Frame2, text="First name ", font=('Arial',12)).pack(side='left')
+firstnameEntry = tk.Entry(tab3Frame2, width=20)
 firstnameEntry.pack(side='left')
 tab3Frame2.pack(side='top', pady=10)
 
 tab3Frame3 = tk.Frame(allLabelEntries)
-lastnameLabel = tk.Label(tab3Frame3, text="Last name ", font=(15)).pack(side='left')
-lastnameEntry = tk.Entry(tab3Frame3, width=15)
+lastnameLabel = tk.Label(tab3Frame3, text="Last name ", font=('Arial',12)).pack(side='left')
+lastnameEntry = tk.Entry(tab3Frame3, width=20)
 lastnameEntry.pack(side='left')
 tab3Frame3.pack(side='top', pady=10)
 
 tab3Frame4 = tk.Frame(allLabelEntries)
-addressLabel = tk.Label(tab3Frame4, text="Address ", font=(15)).pack(side='left')
-addressEntry = tk.Entry(tab3Frame4, width=15)
+addressLabel = tk.Label(tab3Frame4, text="Address ", font=('Arial',12)).pack(side='left')
+addressEntry = tk.Entry(tab3Frame4, width=20)
 addressEntry.pack(side='left')
 tab3Frame4.pack(side='top', pady=10)
 
@@ -161,7 +162,7 @@ def showCustomersTable(tableFrameTab3):
     i = 0
     for customer in dbCursor:
         for j in range(len(customer)):
-            e = tk.Entry(tableFrameTab3, width=15)
+            e = tk.Entry(tableFrameTab3, width=(len(customer)+14))
             e.grid(row=i, column=j)
             e.insert(tk.END, customer[j])
         i = i + 1
@@ -181,18 +182,22 @@ def updateInfo(tableFrameTab3):
     if firstnameEntry.get():
         upQuery += 'firstName=\'' + firstnameEntry.get() + '\''
         entries.remove(firstnameEntry.get())
-        if not entries:
+        if not lastnameEntry.get() and not addressEntry.get():
             upQuery += " "
         else:
             upQuery += ", "
+    else:
+        entries.remove(firstnameEntry.get())
 
     if lastnameEntry.get():
         upQuery += 'lastName=\'' + lastnameEntry.get() + '\''
         entries.remove(lastnameEntry.get())
-        if entries:
-            upQuery += ", "
-        else:
+        if not addressEntry.get():
             upQuery += " "
+        else:
+            upQuery += ", "
+    else:
+        entries.remove(lastnameEntry.get())
 
     if addressEntry.get():
         upQuery += 'Address=\'' + addressEntry.get() + '\' '
@@ -223,7 +228,7 @@ allLabelEntries = tk.Frame(tab4left)
 allLabelEntries.pack(side='top', anchor='nw', padx=10)
 
 tab4Frame1 = tk.Frame(allLabelEntries)
-orderIDLabel = tk.Label(tab4Frame1, text="OrderID ", font=(18)).pack(side='left')
+orderIDLabel = tk.Label(tab4Frame1, text="OrderID ", font=('Arial', 12)).pack(side='left')
 orderIDEntry = tk.Entry(tab4Frame1)
 orderIDEntry.pack(side='left')
 tab4Frame1.pack(side='top', pady=10)
@@ -232,28 +237,27 @@ tableFrameTab4 = tk.Frame(tab3right)
 tableFrameTab4.pack(side='top')
 
 
-def showOrdersTable():
-    tableFrameTab4 = tk.Frame(tab4right)
-    tableFrameTab4.pack(side='top')
-    # orders = db_connection.execute("SELECT * FROM Orders")
+def showOrdersTable(tableFrameTab4):
+    dbCursor.execute("SELECT * FROM Orders")
     i = 0
-    # for order in orders:
-    #     for j in range(len(orders)):
-    #         e = tk.Label(tab3right, width=20, text=order[j])
-    #         e.grid(row=i, column=j)
-    #     i = i + 1
+    for customer in dbCursor:
+        for j in range(len(customer)):
+            e = tk.Entry(tableFrameTab4, width=(len(customer) + 14))
+            e.grid(row=i, column=j)
+            e.insert(tk.END, customer[j])
+        i = i + 1
+    tableFrameTab4.update()
 
 
 # button and button function
-def delOrders():
+def delOrders(tableFrameTab4):
     delQuery = ("DELETE FROM Orders WHERE OrderID=%s" % orderIDEntry.get())
-    tableFrameTab4.destroy()
     dbCursor.execute(delQuery)
     db_connection.commit()
-    showOrdersTable()
+    showOrdersTable(tableFrameTab4)
 
 
-tab4Btn = tk.Button(tab4left, command=delOrders, text="Delete order", bg='#274D8B', fg='white',
+tab4Btn = tk.Button(tab4left, command=lambda: delOrders(tableFrameTab3), text="Delete order", bg='#274D8B', fg='white',
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
 # right side 
