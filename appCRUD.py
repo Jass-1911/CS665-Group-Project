@@ -2,7 +2,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import mysql.connector
 
-
 # db_connection = mysql.connector.connect(
 # host="",
 # user="",
@@ -80,8 +79,6 @@ window = tk.Tk()  # Window Creation
 window.title("Database CRUD Application - Clothing Store")  # Titling Window
 window.geometry("750x500")
 
-###### Labels & Entry ######
-
 # ------Title-------
 cFrame = tk.Frame(window, bg="#274D8B")
 cLabel = tk.Label(cFrame, text="Clothing Store", bg="#274D8B", font=("Arial", 20, "bold"), fg="white").pack(pady=5,
@@ -114,17 +111,68 @@ tab2right = tk.Frame(tab2, width=350)
 tab2left.pack(side='left', expand=True, fill='both')
 tab2right.pack(side='left', expand=True, fill='both')
 
-# ---- Tab 3 Content ----
+# ---- Update Customer Info (Tab 3) ----
 tab3left = tk.Frame(tab3, width=350)
 tab3right = tk.Frame(tab3, width=350)
 tab3left.pack(side='left', expand=True, fill='both')
 tab3right.pack(side='left', expand=True, fill='both')
 
-# ---- Tab 4 Content ----
+# left side
+tab3title = tk.Label(tab3left, text="Update customer info", font=('Arial',16,'bold')).pack(anchor='nw',padx=10, pady=10)
+
+allLabelEntries = tk.Frame(tab3left)
+allLabelEntries.pack(side='top', anchor='nw', padx=10)
+
+tab3Frame1 = tk.Frame(allLabelEntries)
+firstnameLabel = tk.Label(tab3Frame1, text="First name ", font=(18)).pack(side='left')
+firstnameEntry = tk.Entry(tab3Frame1)
+firstnameEntry.pack(side='left')
+firstname = firstnameEntry.get()
+tab3Frame1.pack(side='top', pady=10)
+
+tab3Frame2 = tk.Frame(allLabelEntries)
+lastnameLabel = tk.Label(tab3Frame2, text="Last name ", font=(18)).pack(side='left')
+lastnameEntry = tk.Entry(tab3Frame2)
+lastnameEntry.pack(side='left')
+lastname = lastnameEntry.get()
+tab3Frame2.pack(side='top', pady=10)
+
+tab3Frame3 = tk.Frame(allLabelEntries)
+addressLabel = tk.Label(tab3Frame3, text="Address ", font=(18)).pack(side='left')
+addressEntry = tk.Entry(tab3Frame3)
+addressEntry.pack(side='left')
+address = addressEntry.get()
+tab3Frame3.pack(side='top', pady=10)
+
+tab3Btn = tk.Button(tab3left, text="Save changes", bg='#274D8B', fg='white', font=('Arial', 14,'bold')).pack(side='top',anchor='nw', padx=10, pady=10)
+
+# right side
+tab3title = tk.Label(tab3right, text="Results", font=('Arial',16,'bold')).pack(anchor='nw',pady=10)
+
+
+# ---- Delete orders (Tab 4) ----
 tab4left = tk.Frame(tab4, width=350)
 tab4right = tk.Frame(tab4, width=350)
 tab4left.pack(side='left', expand=True, fill='both')
 tab4right.pack(side='left', expand=True, fill='both')
+
+# left side
+tab4title = tk.Label(tab4left, text="Delete orders", font=('Arial',16,'bold')).pack(anchor='nw',padx=10, pady=10)
+
+allLabelEntries = tk.Frame(tab4left)
+allLabelEntries.pack(side='top', anchor='nw', padx=10)
+
+tab4Frame1 = tk.Frame(allLabelEntries)
+orderIDLabel = tk.Label(tab4Frame1, text="OrderID ", font=(18)).pack(side='left')
+orderIDEntry = tk.Entry(tab4Frame1)
+orderIDEntry.pack(side='left')
+orderID = orderIDEntry.get()
+tab4Frame1.pack(side='top', pady=10)
+
+tab4Btn = tk.Button(tab4left, text="Delete order", bg='#274D8B', fg='white', font=('Arial', 14,'bold')).pack(side='top',anchor='nw', padx=10, pady=10)
+
+# right side
+tab4title = tk.Label(tab4right, text="Results", font=('Arial',16,'bold')).pack(anchor='nw',pady=10)
 
 # pack each tab
 tab1.pack(fill='both', expand=True)
