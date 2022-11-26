@@ -8,11 +8,11 @@ Below are the SQL statements used to perform CRUD functions for our application.
 ## Update
 
 The "Update customer info" tab updates one record from the Customers table.
-The function required the customerID to prevent changing all records, but made firstname, lastname, and address all optional. 
+The function required the customerID from input to prevent changing all records, but made firstname, lastname, and address inputs are all optional. 
 
 When put together, the full SQL statement looks something like this
 
-`UPDATE Customers SET FirstName = "firstnameEntry.get(), LastName = "lastnameEntry.get()", 
+`UPDATE Customers SET FirstName = "firstnameEntry.get()", LastName = "lastnameEntry.get()", 
 Address = "addressEntry.get()"
 WHERE CustomerID = custIDEntry.get()`
 
