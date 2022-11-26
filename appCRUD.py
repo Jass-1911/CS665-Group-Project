@@ -128,35 +128,34 @@ tab3Frame1 = tk.Frame(allLabelEntries)
 custIDLabel = tk.Label(tab3Frame1, text="CustomerID *", font=(18)).pack(side='left')
 custIDEntry = tk.Entry(tab3Frame1)
 custIDEntry.pack(side='left')
-custID = custIDEntry.get()
 tab3Frame1.pack(side='top', pady=10)
 
 tab3Frame2 = tk.Frame(allLabelEntries)
 firstnameLabel = tk.Label(tab3Frame2, text="First name ", font=(18)).pack(side='left')
 firstnameEntry = tk.Entry(tab3Frame2)
 firstnameEntry.pack(side='left')
-firstname = firstnameEntry.get()
 tab3Frame2.pack(side='top', pady=10)
 
 tab3Frame3 = tk.Frame(allLabelEntries)
 lastnameLabel = tk.Label(tab3Frame3, text="Last name ", font=(18)).pack(side='left')
 lastnameEntry = tk.Entry(tab3Frame3)
 lastnameEntry.pack(side='left')
-lastname = lastnameEntry.get()
 tab3Frame3.pack(side='top', pady=10)
 
 tab3Frame4 = tk.Frame(allLabelEntries)
 addressLabel = tk.Label(tab3Frame4, text="Address ", font=(18)).pack(side='left')
 addressEntry = tk.Entry(tab3Frame4)
 addressEntry.pack(side='left')
-address = addressEntry.get()
 tab3Frame4.pack(side='top', pady=10)
 
-tableFrameTab3 = tk.Frame(tab3right).pack(side='top')
+tableFrameTab3 = tk.Frame(tab3right)
+tableFrameTab3.pack(side='top')
+
 
 # generate customers table
 def showCustomersTable():
-    tableFrameTab3 = tk.Frame(tab3right).pack(side='top')
+    tableFrameTab3 = tk.Frame(tab3right)
+    tableFrameTab3.pack(side='top')
     # customers = db_connection.execute("SELECT * FROM Customers")
     i = 0
     # for customer in customers:
@@ -169,22 +168,36 @@ def showCustomersTable():
 # update customer info query
 def updateInfo():
     # make sure customer ID has been entered
-    if custID =="" or not int(custID):
-        messagebox.showinfo("Request not complete", "Please enter a customer ID")
-        return
+    if not custIDEntry.get():
+         messagebox.showinfo("Request not complete", "Please enter an existing customer ID")
+         return
 
-    entries = [firstname, lastname, address]
-    entries_len = len(entries)
     upQuery = "UPDATE Customers SET "
-    for i in entries:
-        index = entries.index(i)
-        if i:
-            upQuery += i
-            entries_end = entries_len - index
-        if entries_end != 1:
-            upQuery += ", "
+    entries = [firstnameEntry.get(), lastnameEntry.get(), addressEntry.get()]
+
+    if firstnameEntry.get():
+        upQuery += 'FirstName=\'' + firstnameEntry.get() + '\''
+        entries.remove(firstnameEntry.get())
+        if not addressEntry.get() or not entries:
+            upQuery += " "
         else:
-            upQuery += "WHERE CustomerID = " + custID
+            upQuery += ", "
+
+    if lastnameEntry.get():
+        upQuery += 'LastName=\'' + lastnameEntry.get() + '\''
+        entries.remove(lastnameEntry.get())
+        if not addressEntry.get() or not entries:
+            upQuery += " "
+        else:
+            upQuery += ", "
+
+    if addressEntry.get():
+        upQuery += 'Address=\'' + addressEntry.get() + '\' '
+        entries.remove(addressEntry.get())
+
+
+    upQuery += "WHERE CustomerID=" + str(custIDEntry.get())
+    print(upQuery)
 
     tableFrameTab3.destroy()
     # dbCursor.execute(upQuery)
@@ -213,13 +226,15 @@ tab4Frame1 = tk.Frame(allLabelEntries)
 orderIDLabel = tk.Label(tab4Frame1, text="OrderID ", font=(18)).pack(side='left')
 orderIDEntry = tk.Entry(tab4Frame1)
 orderIDEntry.pack(side='left')
-orderID = orderIDEntry.get()
 tab4Frame1.pack(side='top', pady=10)
 
-tableFrameTab4 = tk.Frame(tab3right).pack(side='top')
+tableFrameTab4 = tk.Frame(tab3right)
+tableFrameTab4.pack(side='top')
+
 
 def showOrdersTable():
-    tableFrameTab4 = tk.Frame(tab4right).pack(side='top')
+    tableFrameTab4 = tk.Frame(tab4right)
+    tableFrameTab4.pack(side='top')
     # orders = db_connection.execute("SELECT * FROM Orders")
     i = 0
     # for order in orders:
@@ -228,9 +243,10 @@ def showOrdersTable():
     #         e.grid(row=i, column=j)
     #     i = i + 1
 
+
 # button and button function
 def delOrders():
-    delQuery = ("DELETE FROM Orders WHERE OrderID=%s" % orderID)
+    delQuery = ("DELETE FROM Orders WHERE OrderID=%s" % orderIDEntry.get())
     tableFrameTab4.destroy()
     # dbCursor.execute(delQuery)
     showOrdersTable()
