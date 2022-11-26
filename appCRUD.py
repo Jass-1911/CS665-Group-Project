@@ -1,17 +1,20 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import mysql.connector
+from tkinter import messagebox
 
+# for now just use my own sql database. may need to fill some tables with data - Jenny
+db_connection = mysql.connector.connect(
+    host="192.168.1.2",
+    user="newuser",
+    password='QuAcKiTy2022!',
+    database='testdb'
+)
 
-# db_connection = mysql.connector.connect(
-# host="",
-# user="",
-# password="",
-# database="mydatabase"
-# )
+dbCursor = db_connection.cursor()
 
-# dbCursor = db_connection.cursor()
-
+select = dbCursor.execute("select * from customers")
+rows = dbCursor.fetchall()  # get all selected rows, as Barmar mentioned
 
 # ######------REFERENCES-------#######
 # ------Widget------#
@@ -80,8 +83,6 @@ window = tk.Tk()  # Window Creation
 window.title("Database CRUD Application - Clothing Store")  # Titling Window
 window.geometry("750x500")
 
-###### Labels & Entry ######
-
 # ------Title-------
 cFrame = tk.Frame(window, bg="#274D8B")
 cLabel = tk.Label(cFrame, text="Clothing Store", bg="#274D8B", font=("Arial", 20, "bold"), fg="white").pack(pady=5,
@@ -114,17 +115,153 @@ tab2right = tk.Frame(tab2, width=350)
 tab2left.pack(side='left', expand=True, fill='both')
 tab2right.pack(side='left', expand=True, fill='both')
 
-# ---- Tab 3 Content ----
-tab3left = tk.Frame(tab3, width=350)
-tab3right = tk.Frame(tab3, width=350)
+# ---- Update Customer Info (Tab 3) ----
+tab3left = tk.Frame(tab3, width=300)
+tab3right = tk.Frame(tab3, width=400)
 tab3left.pack(side='left', expand=True, fill='both')
 tab3right.pack(side='left', expand=True, fill='both')
 
-# ---- Tab 4 Content ----
+# left side
+tab3title = tk.Label(tab3left, text="Update customer info", font=('Arial', 16, 'bold')).pack(anchor='nw', padx=5,
+                                                                                             pady=10)
+
+allLabelEntries = tk.Frame(tab3left)
+allLabelEntries.pack(side='top', anchor='nw')
+
+tab3Frame1 = tk.Frame(allLabelEntries)
+custIDLabel = tk.Label(tab3Frame1, text="CustomerID *", font=('Arial',12)).pack(side='left')
+custIDEntry = tk.Entry(tab3Frame1, width=20)
+custIDEntry.pack(side='left')
+tab3Frame1.pack(side='top', pady=10)
+
+tab3Frame2 = tk.Frame(allLabelEntries)
+firstnameLabel = tk.Label(tab3Frame2, text="First name ", font=('Arial',12)).pack(side='left')
+firstnameEntry = tk.Entry(tab3Frame2, width=20)
+firstnameEntry.pack(side='left')
+tab3Frame2.pack(side='top', pady=10)
+
+tab3Frame3 = tk.Frame(allLabelEntries)
+lastnameLabel = tk.Label(tab3Frame3, text="Last name ", font=('Arial',12)).pack(side='left')
+lastnameEntry = tk.Entry(tab3Frame3, width=20)
+lastnameEntry.pack(side='left')
+tab3Frame3.pack(side='top', pady=10)
+
+tab3Frame4 = tk.Frame(allLabelEntries)
+addressLabel = tk.Label(tab3Frame4, text="Address ", font=('Arial',12)).pack(side='left')
+addressEntry = tk.Entry(tab3Frame4, width=20)
+addressEntry.pack(side='left')
+tab3Frame4.pack(side='top', pady=10)
+
+tab3title = tk.Label(tab3right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', pady=10)
+tableFrameTab3 = tk.Frame(tab3right)
+tableFrameTab3.pack(side='top')
+
+# generate customers table
+def showCustomersTable(tableFrameTab3):
+    dbCursor.execute("SELECT * FROM Customers")
+    i = 0
+    for customer in dbCursor:
+        for j in range(len(customer)):
+            e = tk.Entry(tableFrameTab3, width=(len(customer)+14))
+            e.grid(row=i, column=j)
+            e.insert(tk.END, customer[j])
+        i = i + 1
+    tableFrameTab3.update()
+
+
+# update customer info query
+def updateInfo(tableFrameTab3):
+    # make sure customer ID has been entered
+    if not custIDEntry.get():
+        messagebox.showinfo("Request not complete", "Please enter an existing customer ID")
+        return
+
+    upQuery = "UPDATE Customers SET "
+    entries = [firstnameEntry.get(), lastnameEntry.get(), addressEntry.get()]
+
+    if firstnameEntry.get():
+        upQuery += 'firstName=\'' + firstnameEntry.get() + '\''
+        entries.remove(firstnameEntry.get())
+        if not lastnameEntry.get() and not addressEntry.get():
+            upQuery += " "
+        else:
+            upQuery += ", "
+    else:
+        entries.remove(firstnameEntry.get())
+
+    if lastnameEntry.get():
+        upQuery += 'lastName=\'' + lastnameEntry.get() + '\''
+        entries.remove(lastnameEntry.get())
+        if not addressEntry.get():
+            upQuery += " "
+        else:
+            upQuery += ", "
+    else:
+        entries.remove(lastnameEntry.get())
+
+    if addressEntry.get():
+        upQuery += 'Address=\'' + addressEntry.get() + '\' '
+        entries.remove(addressEntry.get())
+
+    upQuery += "WHERE CustomerID=" + str(custIDEntry.get())
+    print(upQuery)
+
+    dbCursor.execute(upQuery)
+    db_connection.commit()  # NEED THIS IN ORDER TO ACTUALLY UPDATE CHANGES INTO DATABASE
+    showCustomersTable(tableFrameTab3)
+
+
+tab3Btn = tk.Button(tab3left, command=lambda: updateInfo(tableFrameTab3), text="Save changes", bg='#274D8B', fg='white',
+                    font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
+
+
+# ---- Delete orders (Tab 4) ----
 tab4left = tk.Frame(tab4, width=350)
 tab4right = tk.Frame(tab4, width=350)
 tab4left.pack(side='left', expand=True, fill='both')
 tab4right.pack(side='left', expand=True, fill='both')
+
+# left side
+tab4title = tk.Label(tab4left, text="Delete orders", font=('Arial', 16, 'bold')).pack(anchor='nw', padx=10, pady=10)
+
+allLabelEntries = tk.Frame(tab4left)
+allLabelEntries.pack(side='top', anchor='nw', padx=10)
+
+tab4Frame1 = tk.Frame(allLabelEntries)
+orderIDLabel = tk.Label(tab4Frame1, text="OrderID ", font=('Arial', 12)).pack(side='left')
+orderIDEntry = tk.Entry(tab4Frame1)
+orderIDEntry.pack(side='left')
+tab4Frame1.pack(side='top', pady=10)
+
+tableFrameTab4 = tk.Frame(tab3right)
+tableFrameTab4.pack(side='top')
+
+
+def showOrdersTable(tableFrameTab4):
+    dbCursor.execute("SELECT * FROM Orders")
+    i = 0
+    for customer in dbCursor:
+        for j in range(len(customer)):
+            e = tk.Entry(tableFrameTab4, width=(len(customer) + 14))
+            e.grid(row=i, column=j)
+            e.insert(tk.END, customer[j])
+        i = i + 1
+    tableFrameTab4.update()
+
+
+# button and button function
+def delOrders(tableFrameTab4):
+    delQuery = ("DELETE FROM Orders WHERE OrderID=%s" % orderIDEntry.get())
+    dbCursor.execute(delQuery)
+    db_connection.commit()
+    showOrdersTable(tableFrameTab4)
+
+
+tab4Btn = tk.Button(tab4left, command=lambda: delOrders(tableFrameTab3), text="Delete order", bg='#274D8B', fg='white',
+                    font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
+
+# right side
+tab4title = tk.Label(tab4right, text="Results", font=('Arial', 16, 'bold')).pack(anchor='nw', pady=10)
 
 # pack each tab
 tab1.pack(fill='both', expand=True)
@@ -137,99 +274,5 @@ nb.add(tab1, text='Create clothing')
 nb.add(tab2, text='View suppliers')
 nb.add(tab3, text='Update customer info')
 nb.add(tab4, text='Delete orders')
-
-# frame1 holds labels and entries
-# frame2 holds the buttons
-# frame3 holds the results messages or tables, depends on what we want to display
-#
-# frame1 = tk.Frame(window, height=500, width=250)
-# frame2 = tk.Frame(window, height=500, width=250)
-# frame3 = tk.Frame(window, highlightbackground="black", highlightthickness=1, height=500, width=250)
-# frame1.pack(side='left', anchor='center', fill='both', expand=True)
-# frame2.pack(side='left', anchor='center', fill='both', expand=True)
-# frame3.pack(side='left', anchor='center', fill='both', expand=True)
-#
-# # ------Label 1------#
-# allLabelEntries = tk.Frame(frame1)
-# allLabelEntries.pack(side='left', anchor='center', padx=20)
-#
-# lFrame1 = tk.Frame(allLabelEntries)
-# label1 = tk.Label(lFrame1, text="Label 1", font=(18)).pack(side='left')
-# entry1 = tk.Entry(lFrame1).pack(side='left')
-# lFrame1.pack(side='top', pady=10)
-#
-# # ------Label 2------#
-# lFrame2 = tk.Frame(allLabelEntries)
-# label2 = tk.Label(lFrame2, text="Label 2", font=(18)).pack(side='left')
-# entry2 = tk.Entry(lFrame2).pack(side='left')
-# lFrame2.pack(side='top', pady=10)
-#
-# # ------Label 3------#
-# lFrame3 = tk.Frame(allLabelEntries)
-# label3 = tk.Label(lFrame3, text="Label 3", font=(18)).pack(side='left')
-# entry3 = tk.Entry(lFrame3).pack(side='left')
-# lFrame3.pack(side='top', pady=10)
-#
-# # ------Label 4------#
-# lFrame4 = tk.Frame(allLabelEntries)
-# label4 = tk.Label(lFrame4, text="Label 4", font=(18)).pack(side='left')
-# entry4 = tk.Entry(lFrame4).pack(side='left')
-# lFrame4.pack(side='top', pady=10)
-#
-# # ------Label 5------#
-# lFrame5 = tk.Frame(allLabelEntries)
-# label5 = tk.Label(lFrame5, text="Label 5", font=(18)).pack(side='left')
-# entry5 = tk.Entry(lFrame5).pack(side='left')
-# lFrame5.pack(side='top', pady=10)
-#
-# ###### BUTTONS FOR CRUD OPERATIONS ######
-# # frame to store all buttons
-#
-# # ------Create Button------#
-# allButtons = tk.Frame(frame2)
-# allButtons.pack(side='left', anchor='center', padx=20)
-#
-# but_create = tk.Button(
-#     allButtons,
-#     text="CREATE",
-#     width=20,
-#     height=5,
-#     bg="cyan",
-#     fg="purple",
-#     command=createTuple
-# ).pack(pady=10)
-#
-# # ------Read Button------#
-# but_read = tk.Button(
-#     allButtons,
-#     text="READ",
-#     width=20,
-#     height=5,
-#     bg="cyan",
-#     fg="purple",
-#     command=readTable
-# ).pack(pady=10)
-#
-# # ------Update Button------#
-# but_upd = tk.Button(
-#     allButtons,
-#     text="UPDATE",
-#     width=20,
-#     height=5,
-#     bg="cyan",
-#     fg="purple",
-#     command=updateTable
-# ).pack(pady=10)
-#
-# # ------Delete Button------#
-# but_del = tk.Button(
-#     allButtons,
-#     text="DELETE",
-#     width=20,
-#     height=5,
-#     bg="cyan",
-#     fg="purple",
-#     command=deleteRel
-# ).pack(pady=10)
 
 window.mainloop()  # Needed At end of a python file for executable application to properly run
