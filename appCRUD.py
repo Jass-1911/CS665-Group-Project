@@ -124,9 +124,6 @@ tab2right.pack(side='left', expand=True, fill='both')
 tab3left = tk.Frame(tab3, width=350)
 tab3right = tk.Frame(tab3, width=350)
 
-l3 = tk.Label(tab3left, font=('Arial', 15,'bold'), text='Update customer info').pack(pady=10, padx= 5, anchor='nw')
-r3 = tk.Label(tab3right, font=('Arial', 15,'bold'), text='Results').pack(pady=10,padx=10,anchor='nw')
-
 tab3left.pack(side='left', expand=True, fill='both')
 tab3right.pack(side='left', expand=True, fill='both')
 
@@ -226,9 +223,6 @@ tab3title = tk.Label(tab3right, text="Results", font=('Arial', 16, 'bold')).pack
 # ---- Delete orders (Tab 4) ----
 tab4left = tk.Frame(tab4, width=350)
 tab4right = tk.Frame(tab4, width=350)
-
-l4 = tk.Label(tab4left, font=('Arial', 15,'bold'), text='Delete orders').pack(pady=10, padx=5, anchor='nw')
-r4 = tk.Label(tab4right, font=('Arial', 15,'bold'), text='Results').pack(pady=10,padx=10,anchor='nw')
 
 tab4left.pack(side='left', expand=True, fill='both')
 tab4right.pack(side='left', expand=True, fill='both')
