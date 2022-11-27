@@ -1,5 +1,5 @@
 # CS665 Group Project - Clothing Store
-A desktop application which simulates a clothing store using a database.
+A Python GUI application which simulates the inventory of a clothing store using a database.
 
 View the GitHub repository at https://github.com/jennycpero/CS665-Group-Project
 
