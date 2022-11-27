@@ -5,78 +5,13 @@ from tkinter import messagebox
 
 # for now just use my own sql database. may need to fill some tables with data - Jenny
 db_connection = mysql.connector.connect(
-    host="192.168.1.2",
-    user="newuser",
-    password='QuAcKiTy2022!',
-    database='testdb'
+    host="localhost",
+    user="root",
+    password='StAnLoOnA5',
+    database='clothingstore'
 )
 
 dbCursor = db_connection.cursor()
-
-select = dbCursor.execute("select * from customers")
-rows = dbCursor.fetchall()  # get all selected rows, as Barmar mentioned
-
-# ######------REFERENCES-------#######
-# ------Widget------#
-# label=tk.Label(
-#    text="Hello, tkinter",
-#    foreground="white", #Set Text Color to White  ----Many HTML Colors Work
-#    background="black", #Set Background Color to Black ---- background="XXYYZZ" rgb option available
-#    width=10, #Can control Width and Height of Label
-#    height=10
-#    )
-# label.pack() #Adds Widget to Window
-
-# ------Clickable Button------#
-# button = tk.Button(
-#   text="Click me!",
-#    width=25,
-#    height=5,
-#    bg="blue",
-#    fg="yellow",
-# )
-# button.pack() #Adds Button to Window
-
-# ------Entry Widget for User Input------#
-# label2=tk.Label(text="Type This")
-# entry=tk.Entry()
-# label2.pack()
-# entry.pack()
-# name=entry.get() #grabs user input for entry
-# entry.delete(0) #Deletes first character of input for entry
-# entry.delete(0,4) #Deletes characters indexed 0 through 4 of input for entry
-# entry.delete(0,tk.END) #Deletes all characters
-# entry.insert(0, "Python") #Inserts "Python" starting at index 0
-
-
-# ##---Idea for Utilizing Class in Application---###
-# class crudApp(tk.Tk):
-#    def __init__(self):
-#        super().__init__()
-#        self.title("Database CRUD Application")
-#        self.geometry("750x500")
-
-
-# ##------Button Functions------###
-# def createTuple():
-#     print("Created")
-#     # dbCursor.execute("INSERT INTO TABLE")
-#
-#
-# def readTable():
-#     print("Read")
-#     # dbCursor.execute("SELECT * FROM TABLE")
-#
-#
-# def updateTable():
-#     print("Updated")
-#     # dbCursor.execute("UPDATE TABLE SET * WHERE *")
-#
-#
-# def deleteRel():
-#     print("Deleted")
-#     # dbCursor.execute("DELETE FROM TABLE WHERE")
-
 
 # ------Titled Window------ #
 window = tk.Tk()  # Window Creation
@@ -122,7 +57,7 @@ tab3left.pack(side='left', expand=True, fill='both')
 tab3right.pack(side='left', expand=True, fill='both')
 
 # left side
-tab3title = tk.Label(tab3left, text="Update customer info", font=('Arial', 16, 'bold')).pack(anchor='nw', padx=5,
+tab3title = tk.Label(tab3left, text="Update customer info", font=('Arial', 14, 'bold')).pack(anchor='nw', padx=5,
                                                                                              pady=10)
 
 allLabelEntries = tk.Frame(tab3left)
@@ -152,9 +87,33 @@ addressEntry = tk.Entry(tab3Frame4, width=20)
 addressEntry.pack(side='left')
 tab3Frame4.pack(side='top', pady=10)
 
-tab3title = tk.Label(tab3right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', pady=10)
+tab3title = tk.Label(tab3right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
+tab3headers = tk.Frame(tab3right, padx=10)
+col1 = tk.Entry(tab3headers,bg='#89CFF0',width=18)
+col1.grid(row=0, column=0)
+col1.insert(tk.END, "CustomerID")
+col2 = tk.Entry(tab3headers,bg='#89CFF0',width=18)
+col2.grid(row=0, column=1)
+col2.insert(tk.END, "FirstName")
+col3 = tk.Entry(tab3headers,bg='#89CFF0', width=18)
+col3.grid(row=0, column=2)
+col3.insert(tk.END, "LastName")
+col4 = tk.Entry(tab3headers,bg='#89CFF0', width=18)
+col4.grid(row=0, column=3)
+col4.insert(tk.END, "Address")
+tab3headers.pack(side='top')
+
 tableFrameTab3 = tk.Frame(tab3right)
 tableFrameTab3.pack(side='top')
+#generate first instance of table
+dbCursor.execute("SELECT * FROM Customers")
+i = 0
+for customer in dbCursor:
+    for j in range(len(customer)):
+        e = tk.Entry(tableFrameTab3, width=(len(customer) + 14))
+        e.grid(row=i, column=j)
+        e.insert(tk.END, customer[j])
+    i = i + 1
 
 # generate customers table
 def showCustomersTable(tableFrameTab3):
@@ -210,7 +169,6 @@ def updateInfo(tableFrameTab3):
     db_connection.commit()  # NEED THIS IN ORDER TO ACTUALLY UPDATE CHANGES INTO DATABASE
     showCustomersTable(tableFrameTab3)
 
-
 tab3Btn = tk.Button(tab3left, command=lambda: updateInfo(tableFrameTab3), text="Save changes", bg='#274D8B', fg='white',
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
@@ -233,35 +191,52 @@ orderIDEntry = tk.Entry(tab4Frame1)
 orderIDEntry.pack(side='left')
 tab4Frame1.pack(side='top', pady=10)
 
-tableFrameTab4 = tk.Frame(tab3right)
+tab4title = tk.Label(tab4right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', pady=10)
+tab4headers = tk.Frame(tab4right, padx=10)
+tab4col1 = tk.Entry(tab4headers,bg='#89CFF0',width=18)
+tab4col1.grid(row=0, column=0)
+tab4col1.insert(tk.END, "OrderID")
+tab4col2 = tk.Entry(tab4headers,bg='#89CFF0',width=18)
+tab4col2.grid(row=0, column=1)
+tab4col2.insert(tk.END, "ProductID")
+tab4col3 = tk.Entry(tab4headers,bg='#89CFF0', width=18)
+tab4col3.grid(row=0, column=2)
+tab4col3.insert(tk.END, "CustomerID")
+tab4col4 = tk.Entry(tab4headers,bg='#89CFF0', width=18)
+tab4col4.grid(row=0, column=3)
+tab4col4.insert(tk.END, "Total")
+tab4headers.pack(side='top')
+
+tableFrameTab4 = tk.Frame(tab4right)
 tableFrameTab4.pack(side='top')
+# generate first instance of table
+dbCursor.execute("SELECT * FROM Orders")
+i = 0
+for order in dbCursor:
+    for j in range(len(order)):
+        e4 = tk.Entry(tableFrameTab4, width=(len(order) + 14))
+        e4.grid(row=i, column=j)
+        e4.insert(tk.END, order[j])
+    i = i + 1
 
-
-def showOrdersTable(tableFrameTab4):
-    dbCursor.execute("SELECT * FROM Orders")
-    i = 0
-    for customer in dbCursor:
-        for j in range(len(customer)):
-            e = tk.Entry(tableFrameTab4, width=(len(customer) + 14))
-            e.grid(row=i, column=j)
-            e.insert(tk.END, customer[j])
-        i = i + 1
-    tableFrameTab4.update()
-
+tableFrameTab4 = tk.Frame(tab4right)
+tableFrameTab4.pack(side='top')
 
 # button and button function
 def delOrders(tableFrameTab4):
-    delQuery = ("DELETE FROM Orders WHERE OrderID=%s" % orderIDEntry.get())
+    if not orderIDEntry.get():
+        messagebox.showinfo("Request not complete", "Please enter an existing order ID")
+        return
+
+    delQuery = ("DELETE FROM orders WHERE OrderID=%s" % orderIDEntry.get())
+    print(delQuery)
     dbCursor.execute(delQuery)
     db_connection.commit()
-    showOrdersTable(tableFrameTab4)
+    messagebox.showinfo("Order deleted", "Order has been deleted. Restart the app to see your changes.")
 
-
-tab4Btn = tk.Button(tab4left, command=lambda: delOrders(tableFrameTab3), text="Delete order", bg='#274D8B', fg='white',
+tab4Btn = tk.Button(tab4left, command=lambda: delOrders(tableFrameTab4), text="Delete order", bg='#274D8B', fg='white',
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
-# right side
-tab4title = tk.Label(tab4right, text="Results", font=('Arial', 16, 'bold')).pack(anchor='nw', pady=10)
 
 # pack each tab
 tab1.pack(fill='both', expand=True)
