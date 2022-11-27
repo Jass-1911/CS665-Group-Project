@@ -3,7 +3,7 @@ import tkinter.ttk as ttk
 import mysql.connector
 from tkinter import messagebox
 
-# for now just use my own sql database. may need to fill some tables with data - Jenny
+# replace with your own local database
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
