@@ -38,17 +38,29 @@ tab4 = tk.Frame(nb)
 # Each tab is divided into two equal parts: left and right. Left can be used for text entry, buttons, filters, etc.
 # Right can be used to output a table or a result message box
 
-# ---- Tab 1 Content ----
+# ---- Create New Record (Tab 1) ----
 tab1left = tk.Frame(tab1, width=350)
 tab1right = tk.Frame(tab1, width=350)
 tab1left.pack(side='left', expand=True, fill='both')
 tab1right.pack(side='left', expand=True, fill='both')
 
-# ---- Tab 2 Content ----
+#Select Table to Add Record To
+
+#Take User Input
+
+#Add Record/s to Table
+#SingleRecord: "INSERT INTO <table name> (column1, column2,...) VALUES (value 1, value2, ...)"
+#ManyRecords: "INSERT INTO <table name> (column1, column2,...) VALUES (value1, value2, ...),(value1,value2,...),..."
+
+
+
+# ---- Read (Tab 2) ----
 tab2left = tk.Frame(tab2, width=350)
 tab2right = tk.Frame(tab2, width=350)
 tab2left.pack(side='left', expand=True, fill='both')
 tab2right.pack(side='left', expand=True, fill='both')
+
+#"SELECT * FROM <table name> [WHERE <condition>]" 
 
 # ---- Update Customer Info (Tab 3) ----
 tab3left = tk.Frame(tab3, width=300)
