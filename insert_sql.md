@@ -1,39 +1,37 @@
 ## MySQL statements to insert content into the 4 tables 
 
+## Suppliers
+INSERT INTO Suppliers
+VALUES
+  (100, "Watson's Ties", "500 Baker ST", 1),
+  (113, "Shopper's Wholesale", "1234 Blue Ave", 1),
+  (114, "Shoes In Bulk", "5120 Sneaker ST", 1),
+  (115, "Dresses For Success", "777 Lucky Blvd", 1)
+  (116, "The Shirt Depot", "987 34th ST", 1);
 
 ## Product
-CREATE TABLE Product (ProductID int NOT NULL PRIMARY KEY AUTO_INCREMENT, Type VARCHAR(50), SupplierID int NOT NULL, FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID), Size ENUM('S', 'M', 'L'), Material VARCHAR(50), Price double NOT NULL)")
 INSERT INTO Product
 VALUES
-  (),
-  (),
-  (),
-  (),
-  ();
-
-
-## Suppliers
-CREATE TABLE Suppliers (SupplierID int NOT NULL PRIMARY KEY AUTO_INCREMENT, supplierName VARCHAR(50) NOT NULL, address VARCHAR(50), numOfProducts int)")
+  (1, "Tie", 100, 'M', "Silk", 20.00),
+  (2, "Shirt", 104, 'L', "Cotton", 45.00)
+  (3, "Dress", 103, 'S', "Velvet", 60.00)
+  (4, "Shoes", 102, 'XS', "Canvas", 50.00)
+  (5, "Pants", 101, 'XL', "Polyester", 39.00);
 
 ## Customers
-CREATE TABLE Customers(CustomerID int NOT NULL PRIMARY KEY AUTO_INCREMENT, firstName VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, address VARCHAR(50))")
+INSERT INTO Customers
+VALUES
+  (200, "Nathan", "Smith", "200 Something Ave"),
+  (202, "Aaron", "Will", "2560 Red ST"),
+  (210, "Tina", "Young", "6802 Orange Blvd"),
+  (211, "Winona", "Borowski", "3331 23rd ST"),
+  (212, "Paul", "Walker", "2305 Access Ave");
 
 ## Orders
-CREATE TABLE Orders(OrderID int NOT NULL PRIMARY KEY AUTO_INCREMENT, ProductID int, FOREIGN KEY (ProductID) REFERENCES Product(ProductID), CustomerID int, FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID), Total int NOT NULL)")
-
-## Suppliers
-CREATE TABLE Suppliers (SupplierID int NOT NULL PRIMARY KEY AUTO_INCREMENT, supplierName VARCHAR(50) NOT NULL, address VARCHAR(250), numOfProducts int)
-
-## Product
-CREATE TABLE Product (ProductID int NOT NULL PRIMARY KEY AUTO_INCREMENT, Type VARCHAR(10), SupplierID int NOT NULL, FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID), Size ENUM('XS', 'S', 'M', 'L', 'XL'), Material VARCHAR(10), Price double NOT NULL)
-
-## Customers
-CREATE TABLE Customers(CustomerID int NOT NULL PRIMARY KEY AUTO_INCREMENT, firstName VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, address VARCHAR(250))
-
-## Orders
-CREATE TABLE Orders(OrderID int NOT NULL PRIMARY KEY AUTO_INCREMENT, ProductID int, FOREIGN KEY (ProductID) REFERENCES Product(ProductID), CustomerID int, FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID), Total double NOT NULL)
-
-## Altering IDS in Suppliers, Customers, and Orders to start incrementing at specific value
-ALTER TABLE Suppliers AUTO_INCREMENT=100
-ALTER TABLE Customers AUTO_INCREMENT=200
-ALTER TABLE Orders AUTO_INCREMENT=300
+INSERT INTO Orders
+VALUES
+  (300, 1, 200, 20.00),
+  (301, 2, 204, 45.00),
+  (302, 4, 202, 50.00),
+  (303, 3, 203, 60.00),
+  (304, 5, 201, 39.00);
