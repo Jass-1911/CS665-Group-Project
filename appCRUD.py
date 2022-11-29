@@ -7,8 +7,8 @@ from tkinter import messagebox
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password='StAnLoOnA5',
-    database='clothingstore'
+    password='fillin',
+    database='clothingDatabase'
 )
 
 dbCursor = db_connection.cursor()
@@ -44,15 +44,67 @@ tab1right = tk.Frame(tab1, width=350)
 tab1left.pack(side='left', expand=True, fill='both')
 tab1right.pack(side='left', expand=True, fill='both')
 
-#Select Table to Add Record To
+#Gain Entries for Clothing Addition
+tab1title=tk.Label(tab1left, text="Add Clothing", font=('Arial', 14, 'bold')).pack(anchor='nw', padx=5, pady=10)
+allTab1Entries= tk.Frame(tab1left)
+allTab1Entries.pack(side='top', pady=10)
 
-#Take User Input
+tab1Frame1 = tk.Frame(allTab1Entries)
+
+productType = tk.Label(tab1Frame1, text="Product Type", font=('Arial',12)).pack(side='left')
+prodTypeEntry = tk.Entry(tab1Frame1, width=20)
+prodTypeEntry.pack(side='left')
+tab1Frame1.pack(side='top', pady=10)
+
+tab1Frame2 = tk.Frame(allTab1Entries)
+suppID = tk.Label(tab1Frame2, text="Supplier ID ", font=('Arial',12)).pack(side='left')
+suppIDEntry = tk.Entry(tab1Frame2, width=20)
+suppIDEntry.pack(side='left')
+tab1Frame2.pack(side='top', pady=10)
+
+tab1Frame3 = tk.Frame(allTab1Entries)
+sizeLabel = tk.Label(tab1Frame3, text="Size ", font=('Arial',12)).pack(side='left')
+sizeEntry = tk.Entry(tab1Frame3, width=20)
+sizeEntry.pack(side='left')
+tab1Frame3.pack(side='top', pady=10)
+
+tab1Frame4 = tk.Frame(allTab1Entries)
+materialLabel = tk.Label(tab1Frame4, text="Material ", font=('Arial',12)).pack(side='left')
+materialEntry = tk.Entry(tab1Frame4, width=20)
+materialEntry.pack(side='left')
+tab1Frame4.pack(side='top', pady=10)
+
+tab1Frame5 = tk.Frame(allTab1Entries)
+priceLabel = tk.Label(tab1Frame5, text="Price ", font=('Arial',12)).pack(side='left')
+priceEntry = tk.Entry(tab1Frame5, width=20)
+priceEntry.pack(side='left')
+tab1Frame5.pack(side='top', pady=10)
+
+#Add Product Entry to Product Table
+def addProduct():
+    return
+#    # make sure customer ID has been entered
+#    
+#    upQuery = "INSERT INTO Products"
+#    entries = [prodTypeEntry.get(), suppIDEntry.get(), sizeEntry.get(), materialEntry.get(), priceEntry.get()]
+#
+#    if prodTypeEntry.get():
+#        upQuery += 'Type=\'' + prodTypeEntry.get() + '\''
+#        entries.remove([prodTypeEntry.get())
+#        if not suppIDEntry.get() and not 
+#    print(upQuery)
+#
+#    dbCursor.execute(upQuery)
+#    db_connection.commit()  # NEED THIS IN ORDER TO ACTUALLY UPDATE CHANGES INTO DATABASE
+#    showCustomersTable(tableFrameTab1)
 
 #Add Record/s to Table
 #SingleRecord: "INSERT INTO <table name> (column1, column2,...) VALUES (value 1, value2, ...)"
 #ManyRecords: "INSERT INTO <table name> (column1, column2,...) VALUES (value1, value2, ...),(value1,value2,...),..."
 
-
+#Add Clothing Button
+tab1Btn = tk.Button(tab1left, command=lambda: addProduct(), text="Add Clothing", bg='#274D8B', fg='white',
+                    font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
 # ---- Read (Tab 2) ----
 tab2left = tk.Frame(tab2, width=350)
@@ -60,7 +112,8 @@ tab2right = tk.Frame(tab2, width=350)
 tab2left.pack(side='left', expand=True, fill='both')
 tab2right.pack(side='left', expand=True, fill='both')
 
-#"SELECT * FROM <table name> [WHERE <condition>]" 
+#"SELECT * FROM <table name> [WHERE <condition>]"
+
 
 # ---- Update Customer Info (Tab 3) ----
 tab3left = tk.Frame(tab3, width=300)
