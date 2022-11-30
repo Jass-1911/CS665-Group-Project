@@ -7,7 +7,7 @@ from tkinter import messagebox
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password='fillin',
+    password='SSRush49741301!',
     database='clothingDatabase'
 )
 
@@ -50,7 +50,6 @@ allTab1Entries= tk.Frame(tab1left)
 allTab1Entries.pack(side='top', pady=10)
 
 tab1Frame1 = tk.Frame(allTab1Entries)
-
 productType = tk.Label(tab1Frame1, text="Product Type", font=('Arial',12)).pack(side='left')
 prodTypeEntry = tk.Entry(tab1Frame1, width=20)
 prodTypeEntry.pack(side='left')
@@ -82,25 +81,19 @@ tab1Frame5.pack(side='top', pady=10)
 
 #Add Product Entry to Product Table
 def addProduct():
-    return
-#    # make sure customer ID has been entered
-#    
-#    upQuery = "INSERT INTO Products"
-#    entries = [prodTypeEntry.get(), suppIDEntry.get(), sizeEntry.get(), materialEntry.get(), priceEntry.get()]
-#
-#    if prodTypeEntry.get():
-#        upQuery += 'Type=\'' + prodTypeEntry.get() + '\''
-#        entries.remove([prodTypeEntry.get())
-#        if not suppIDEntry.get() and not 
-#    print(upQuery)
-#
-#    dbCursor.execute(upQuery)
-#    db_connection.commit()  # NEED THIS IN ORDER TO ACTUALLY UPDATE CHANGES INTO DATABASE
-#    showCustomersTable(tableFrameTab1)
+    # make sure customer ID has been entered
+    
+    upQuery = "INSERT INTO Product (Type, SupplierID, Size, Material, Price) VALUES "
+    entries = [prodTypeEntry.get(), suppIDEntry.get(), sizeEntry.get(), materialEntry.get(), priceEntry.get()]
 
-#Add Record/s to Table
-#SingleRecord: "INSERT INTO <table name> (column1, column2,...) VALUES (value 1, value2, ...)"
-#ManyRecords: "INSERT INTO <table name> (column1, column2,...) VALUES (value1, value2, ...),(value1,value2,...),..."
+    if (not (prodTypeEntry.get() and suppIDEntry.get() and sizeEntry.get() and materialEntry.get() and priceEntry.get())):
+        messagebox.showinfo("Request not complete", "Please enter all fields")
+        return
+
+    upQuery += '("' + prodTypeEntry.get() + '","' + suppIDEntry.get() + '","' + sizeEntry.get() + '","' + materialEntry.get() + '","' + priceEntry.get() + '")'
+    print(upQuery)
+    dbCursor.execute(upQuery)
+    db_connection.commit()  # NEED THIS IN ORDER TO ACTUALLY UPDATE CHANGES INTO DATABASE
 
 #Add Clothing Button
 tab1Btn = tk.Button(tab1left, command=lambda: addProduct(), text="Add Clothing", bg='#274D8B', fg='white',
@@ -112,7 +105,37 @@ tab2right = tk.Frame(tab2, width=350)
 tab2left.pack(side='left', expand=True, fill='both')
 tab2right.pack(side='left', expand=True, fill='both')
 
+tab2title=tk.Label(tab2left, text="Enter Filter Criteria", font=('Arial',14,'bold')).pack(anchor='nw', padx=5, pady=10)
+allTab2Entries = tk.Frame(tab2left)
+allTab2Entries.pack(side='top', pady=10)
+
+tab2Frame1=tk.Frame(allTab2Entries)
+supplierName = tk.Label(tab2Frame1, text="Supplier Name", font=('Arial', 12)).pack(side='left')
+supplierNameEntry = tk.Entry(tab2Frame1, width=20)
+supplierNameEntry.pack(side='left')
+tab2Frame1.pack(side='top', pady=10)
+
+tab2Frame2=tk.Frame(allTab2Entries)
+address=tk.Label(tab2Frame2, text="Address", font=('Arial', 12)).pack(side='left')
+addressEntry=tk.Entry(tab2Frame2, width=20)
+addressEntry.pack(side='left')
+tab2Frame2.pack(side='top', pady=10)
+
+tab2Frame3=tk.Frame(allTab2Entries)
+numOfProd=tk.Label(tab2Frame3, text="Number of Products", font=('Arial', 12)).pack(side='left')
+numOfProdEntry=tk.Entry(tab2Frame3,width=20)
+numOfProdEntry.pack(side='left')
+tab2Frame3.pack(side='top', pady=10)
+
 #"SELECT * FROM <table name> [WHERE <condition>]"
+def readTables():
+    upQuery = "SELECT '%s', '%s', '%s' FROM Suppliers" % (supplierNameEntry.get(), addressEntry.get(), numOfProdEntry.get())
+    print(upQuery)
+    dbCursor.execute(upQuery)
+    db_connection.commit() #NEEDED TO MAKE ACTUAL CHANGES TO DATABASE
+
+
+tab2Btn = tk.Button(tab2left, command=lambda: readTables(), text="Search", bg="#274D8B", fg='white', font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
 
 # ---- Update Customer Info (Tab 3) ----
