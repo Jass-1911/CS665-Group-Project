@@ -7,8 +7,8 @@ from tkinter import messagebox
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password='SSRush49741301!',
-    database='clothingDatabase'
+    password='',
+    database='testdb'
 )
 
 dbCursor = db_connection.cursor()
@@ -240,7 +240,7 @@ def displaySupplierInfo():
     if not supplierNameEntry.get():
         messagebox.showinfo("Request not complete", "Please enter Supplier Name")
         return
-    upQuery = "SELECT * FROM Suppliers WHERE supplierName=%s" % (supplierNameEntry.get())
+    upQuery = "SELECT * FROM Suppliers WHERE supplierName=\""+supplierNameEntry.get()+"\""
     print(upQuery)
     dbCursor.execute(upQuery)
     i = 0
