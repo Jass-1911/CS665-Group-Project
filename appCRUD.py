@@ -7,11 +7,11 @@ from tkinter import messagebox
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password='SSRush49741301!',
-    database='clothingDatabase'
+    password='StAnLoOnA5',
+    database='clothingStore'
 )
 
-dbCursor = db_connection.cursor()
+dbCursor = db_connection.cursor(buffered=True)
 
 # ------Titled Window------ #
 window = tk.Tk()  # Window Creation
