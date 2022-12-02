@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import mysql.connector
 from tkinter import messagebox
+import os
 
 # replace with your own local database
 db_connection = mysql.connector.connect(
@@ -83,7 +84,7 @@ priceEntry.pack(side='left')
 tab1Frame5.pack(side='top', pady=10)
 
 tab1title = tk.Label(tab1right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
-tab1headers = tk.Frame(tab1right, padx=110)
+tab1headers = tk.Frame(tab1right)
 col11 = tk.Entry(tab1headers,bg='#89CFF0',width=10)
 col11.grid(row=0, column=0)
 col11.insert(tk.END, "Type")
@@ -99,7 +100,7 @@ col14.insert(tk.END, "Material")
 col15 = tk.Entry(tab1headers, bg='#89CFF0', width=10)
 col15.grid(row=0, column=4)
 col15.insert(tk.END, "Price")
-tab1headers.pack(side='top')
+tab1headers.pack(side='top',anchor='n')
 
 tableFrameTab1 = tk.Frame(tab1right)
 tableFrameTab1.pack(side='top')
@@ -107,7 +108,7 @@ tableFrameTab1.pack(side='top')
 dbCursor.execute("SELECT * FROM Product")
 i = 0
 for product in dbCursor:
-    for j in range(len(product)):
+    for j in range(1,len(product)):
         e = tk.Entry(tableFrameTab1, width=(len(product) + 4))
         e.grid(row=i, column=j)
         e.insert(tk.END, product[j])
@@ -118,7 +119,7 @@ def showProductTable(tableFrameTab1):
     dbCursor.execute("SELECT * FROM Product")
     i = 0
     for product in dbCursor:
-        for j in range(len(product)):
+        for j in range(1, len(product)):
             e = tk.Entry(tableFrameTab1, width=(len(product) + 4))
             e.grid(row=i, column=j)
             e.insert(tk.END, product[j])
@@ -147,17 +148,6 @@ tab1Btn = tk.Button(tab1left, command=lambda: addProduct(), text="Add Clothing",
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
 
-
-
-
-
-
-
-
-
-
-
-
 # ---- Read (Tab 2) ----
 tab2left = tk.Frame(tab2, width=350)
 tab2right = tk.Frame(tab2, width=350)
@@ -180,40 +170,45 @@ supplierNameEntry = tk.Entry(tab2Frame2, width=20)
 supplierNameEntry.pack(side='left')
 tab2Frame2.pack(side='top', pady=10)
 
+tab2rightTop = tk.Frame(tab2right,height=225)
+tab2rightTop.pack(side='top', anchor='center')
+tab2rightBottom = tk.Frame(tab2right,height=225)
+tab2rightBottom.pack(side='top', anchor='center',expand=True)
 
-
-tab2title = tk.Label(tab2right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', padx=1, pady=1)
-tab2headers = tk.Frame(tab2right, padx=30)
-col21 = tk.Entry(tab2headers,bg='#89CFF0',width=4)
+tab2title = tk.Label(tab2rightTop, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', padx=1, pady=1)
+tab2headers = tk.Frame(tab2rightTop)
+col21 = tk.Entry(tab2headers,bg='#89CFF0',width=9)
 col21.grid(row=0, column=0)
 col21.insert(tk.END, "Type")
-col22 = tk.Entry(tab2headers,bg='#89CFF0',width=10)
+col22 = tk.Entry(tab2headers,bg='#89CFF0',width=12)
 col22.grid(row=0, column=1)
 col22.insert(tk.END, "SupplierID")
-col23 = tk.Entry(tab2headers,bg='#89CFF0', width=4)
+col23 = tk.Entry(tab2headers,bg='#89CFF0', width=9)
 col23.grid(row=0, column=2)
 col23.insert(tk.END, "Size")
-col24 = tk.Entry(tab2headers,bg='#89CFF0', width=7)
+col24 = tk.Entry(tab2headers,bg='#89CFF0', width=10)
 col24.grid(row=0, column=3)
 col24.insert(tk.END, "Material")
-col25 = tk.Entry(tab2headers, bg='#89CFF0', width=5)
+col25 = tk.Entry(tab2headers, bg='#89CFF0', width=9)
 col25.grid(row=0, column=4)
 col25.insert(tk.END, "Price")
 tab2headers.pack(side='top')
+tableFrameTab2Top = tk.Frame(tab2rightTop)
+tableFrameTab2Top.pack(side='top')
 
-tab2headers2 = tk.Frame(tab2right, padx=30)
+tab2headers2 = tk.Frame(tab2rightBottom)
 col212 = tk.Entry(tab2headers2,bg='#89CFF0',width=15)
 col212.grid(row=0, column=0)
 col212.insert(tk.END, "Supplier Name")
-col222 = tk.Entry(tab2headers2,bg='#89CFF0',width=10)
+col222 = tk.Entry(tab2headers2,bg='#89CFF0',width=15)
 col222.grid(row=0, column=1)
 col222.insert(tk.END, "Address")
 col232 = tk.Entry(tab2headers2,bg='#89CFF0', width=15)
 col232.grid(row=0, column=2)
 col232.insert(tk.END, "# of Products")
-tableFrameTab2 = tk.Frame(tab2right)
-tableFrameTab2.pack(side='top')
-tab2headers2.pack(side='right')
+tableFrameTab2Bottom = tk.Frame(tab2rightBottom)
+tab2headers2.pack(side='top')
+tableFrameTab2Bottom.pack(side='top')
 
 #Find Products with Supplier ID Entry
 def selectProducts():
@@ -226,11 +221,11 @@ def selectProducts():
     i = 0
     for product in dbCursor:
         for j in range(len(product)):
-            e = tk.Entry(tableFrameTab2, width=(len(product)))
+            e = tk.Entry(tableFrameTab2Top, width=(len(product)+2))
             e.grid(row=i, column=j)
             e.insert(tk.END, product[j])
         i = i + 1
-    tableFrameTab2.update()
+    tableFrameTab2Top.update()
     
     db_connection.commit() #NEEDED TO MAKE ACTUAL CHANGES TO DATABASE
 
@@ -240,17 +235,17 @@ def displaySupplierInfo():
     if not supplierNameEntry.get():
         messagebox.showinfo("Request not complete", "Please enter Supplier Name")
         return
-    upQuery = "SELECT * FROM Suppliers WHERE supplierName=%s" % (supplierNameEntry.get())
+    upQuery = "SELECT * FROM Suppliers WHERE supplierName=\"%s\"" % (supplierNameEntry.get())
     print(upQuery)
     dbCursor.execute(upQuery)
     i = 0
     for supplier in dbCursor:
-        for j in range(len(supplier)):
-            e = tk.Entry(tableFrameTab2, width=(len(supplier)))
+        for j in range(1,len(supplier)):
+            e = tk.Entry(tableFrameTab2Bottom, width=(len(supplier)+11))
             e.grid(row=i, column=j)
             e.insert(tk.END, supplier[j])
         i = i + 1
-    tableFrameTab2.update()
+    tableFrameTab2Bottom.update()
     
     db_connection.commit() #NEEDED TO MAKE ACTUAL CHANGES TO DATABASE
 
@@ -379,20 +374,6 @@ tab3Btn = tk.Button(tab3left, command=lambda: updateInfo(tableFrameTab3), text="
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ---- Delete orders (Tab 4) ----
 tab4left = tk.Frame(tab4, width=350)
 tab4right = tk.Frame(tab4, width=350)
@@ -442,6 +423,11 @@ for order in dbCursor:
 tableFrameTab4 = tk.Frame(tab4right)
 tableFrameTab4.pack(side='top')
 
+def updateOrders():
+    messagebox.showinfo("Order deleted", "Your order has been deleted. Select OK to refresh your program and see the changes.")
+    window.destroy()
+    os.system('main.py')
+
 # button and button function
 def delOrders(tableFrameTab4):
     if not orderIDEntry.get():
@@ -452,7 +438,7 @@ def delOrders(tableFrameTab4):
     print(delQuery)
     dbCursor.execute(delQuery)
     db_connection.commit()
-    messagebox.showinfo("Order deleted", "Order has been deleted. Restart the app to see your changes.")
+    updateOrders()
 
 tab4Btn = tk.Button(tab4left, command=lambda: delOrders(tableFrameTab4), text="Delete order", bg='#274D8B', fg='white',
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
