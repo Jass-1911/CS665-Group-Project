@@ -7,8 +7,8 @@ from tkinter import messagebox
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password='SSRush49741301!',
-    database='clothingDatabase'
+    password='StAnLoOnA5',
+    database='clothingStore'
 )
 
 dbCursor = db_connection.cursor()
@@ -255,17 +255,6 @@ def displaySupplierInfo():
     db_connection.commit() #NEEDED TO MAKE ACTUAL CHANGES TO DATABASE
 
 tab2Btn2 = tk.Button(tab2Frame2, command=lambda: displaySupplierInfo(), text="List Supplier Info", bg="#274D8B", fg='white', font=('Arial', 8, 'bold')).pack(side='left', anchor='nw', padx=5, pady=5)
-
-
-
-
-
-
-
-
-
-
-
 
 # ---- Update Customer Info (Tab 3) ----
 tab3left = tk.Frame(tab3, width=300)
