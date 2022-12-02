@@ -22,10 +22,10 @@ VALUES
 INSERT INTO Customers
 VALUES
   (200, "Nathan", "Smith", "200 Something Ave"),
-  (202, "Aaron", "Will", "2560 Red ST"),
-  (210, "Tina", "Young", "6802 Orange Blvd"),
-  (211, "Winona", "Borowski", "3331 23rd ST"),
-  (212, "Paul", "Walker", "2305 Access Ave");
+  (201, "Aaron", "Will", "2560 Red ST"),
+  (202, "Tina", "Young", "6802 Orange Blvd"),
+  (203, "Winona", "Borowski", "3331 23rd ST"),
+  (204, "Paul", "Walker", "2305 Access Ave");
 
 ## Orders
 INSERT INTO Orders
