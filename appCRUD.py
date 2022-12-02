@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import mysql.connector
 from tkinter import messagebox
+import os
 
 # replace with your own local database
 db_connection = mysql.connector.connect(
@@ -307,8 +308,8 @@ tab3Btn = tk.Button(tab3left, command=lambda: updateInfo(tableFrameTab3), text="
 
 
 # ---- Delete orders (Tab 4) ----
-tab4left = tk.Frame(tab4, width=350)
-tab4right = tk.Frame(tab4, width=350)
+tab4left = tk.Frame(tab4, width=340)
+tab4right = tk.Frame(tab4, width=360)
 tab4left.pack(side='left', expand=True, fill='both')
 tab4right.pack(side='left', expand=True, fill='both')
 
@@ -316,38 +317,40 @@ tab4right.pack(side='left', expand=True, fill='both')
 tab4title = tk.Label(tab4left, text="Delete orders", font=('Arial', 16, 'bold')).pack(anchor='nw', padx=10, pady=10)
 
 allLabelEntries = tk.Frame(tab4left)
-allLabelEntries.pack(side='top', anchor='nw', padx=10)
+allLabelEntries.pack(side='top', anchor='nw', padx=5)
 
 tab4Frame1 = tk.Frame(allLabelEntries)
 orderIDLabel = tk.Label(tab4Frame1, text="OrderID ", font=('Arial', 12)).pack(side='left')
-orderIDEntry = tk.Entry(tab4Frame1)
+orderIDEntry = tk.Entry(tab4Frame1, width=10)
 orderIDEntry.pack(side='left')
 tab4Frame1.pack(side='top', pady=10)
 
 tab4title = tk.Label(tab4right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', pady=10)
-tab4headers = tk.Frame(tab4right, padx=10)
-tab4col1 = tk.Entry(tab4headers,bg='#89CFF0',width=18)
+tab4headers = tk.Frame(tab4right)
+tab4col1 = tk.Entry(tab4headers,bg='#89CFF0',width=14)
 tab4col1.grid(row=0, column=0)
 tab4col1.insert(tk.END, "OrderID")
-tab4col2 = tk.Entry(tab4headers,bg='#89CFF0',width=18)
+tab4col2 = tk.Entry(tab4headers,bg='#89CFF0',width=14)
 tab4col2.grid(row=0, column=1)
 tab4col2.insert(tk.END, "ProductID")
-tab4col3 = tk.Entry(tab4headers,bg='#89CFF0', width=18)
+tab4col3 = tk.Entry(tab4headers,bg='#89CFF0', width=14)
 tab4col3.grid(row=0, column=2)
 tab4col3.insert(tk.END, "CustomerID")
-tab4col4 = tk.Entry(tab4headers,bg='#89CFF0', width=18)
+tab4col4 = tk.Entry(tab4headers,bg='#89CFF0', width=14)
 tab4col4.grid(row=0, column=3)
 tab4col4.insert(tk.END, "Total")
-tab4headers.pack(side='top')
+tab4headers.pack(side='top', anchor='n')
+
 
 tableFrameTab4 = tk.Frame(tab4right)
 tableFrameTab4.pack(side='top')
 # generate first instance of table
-dbCursor.execute("SELECT * FROM Orders")
+dbCursor.execute("SELECT * from ORDERS")
 i = 0
 for order in dbCursor:
     for j in range(len(order)):
-        e4 = tk.Entry(tableFrameTab4, width=(len(order) + 14))
+        e4 = tk.Entry(tableFrameTab4, width=(len(order) + 10), font=('Arial', 8))
+        e4.grid_forget()
         e4.grid(row=i, column=j)
         e4.insert(tk.END, order[j])
     i = i + 1
@@ -355,8 +358,13 @@ for order in dbCursor:
 tableFrameTab4 = tk.Frame(tab4right)
 tableFrameTab4.pack(side='top')
 
+def updateOrders(window):
+    messagebox.showinfo("Order deleted", "Your order has been deleted. Select OK to refresh your program and see the changes.")
+    window.destroy()
+    os.system('main.py')
+
 # button and button function
-def delOrders(tableFrameTab4):
+def delOrders(window):
     if not orderIDEntry.get():
         messagebox.showinfo("Request not complete", "Please enter an existing order ID")
         return
@@ -365,9 +373,9 @@ def delOrders(tableFrameTab4):
     print(delQuery)
     dbCursor.execute(delQuery)
     db_connection.commit()
-    messagebox.showinfo("Order deleted", "Order has been deleted. Restart the app to see your changes.")
+    updateOrders(window)
 
-tab4Btn = tk.Button(tab4left, command=lambda: delOrders(tableFrameTab4), text="Delete order", bg='#274D8B', fg='white',
+tab4Btn = tk.Button(tab4left, command=lambda: delOrders(window), text="Delete order", bg='#274D8B', fg='white',
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
 
 
