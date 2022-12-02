@@ -79,6 +79,49 @@ priceEntry = tk.Entry(tab1Frame5, width=20)
 priceEntry.pack(side='left')
 tab1Frame5.pack(side='top', pady=10)
 
+tab1title = tk.Label(tab1right, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
+tab1headers = tk.Frame(tab1right, padx=110)
+col11 = tk.Entry(tab1headers,bg='#89CFF0',width=10)
+col11.grid(row=0, column=0)
+col11.insert(tk.END, "Type")
+col12 = tk.Entry(tab1headers,bg='#89CFF0',width=10)
+col12.grid(row=0, column=1)
+col12.insert(tk.END, "SupplierID")
+col13 = tk.Entry(tab1headers,bg='#89CFF0', width=10)
+col13.grid(row=0, column=2)
+col13.insert(tk.END, "Size")
+col14 = tk.Entry(tab1headers,bg='#89CFF0', width=10)
+col14.grid(row=0, column=3)
+col14.insert(tk.END, "Material")
+col15 = tk.Entry(tab1headers, bg='#89CFF0', width=10)
+col15.grid(row=0, column=4)
+col15.insert(tk.END, "Price")
+tab1headers.pack(side='top')
+
+tableFrameTab1 = tk.Frame(tab1right)
+tableFrameTab1.pack(side='top')
+#generate first instance of table
+dbCursor.execute("SELECT * FROM Product")
+i = 0
+for product in dbCursor:
+    for j in range(len(product)):
+        e = tk.Entry(tableFrameTab1, width=(len(product) + 4))
+        e.grid(row=i, column=j)
+        e.insert(tk.END, product[j])
+    i = i + 1
+
+# generate customers table
+def showProductTable(tableFrameTab1):
+    dbCursor.execute("SELECT * FROM Product")
+    i = 0
+    for product in dbCursor:
+        for j in range(len(product)):
+            e = tk.Entry(tableFrameTab1, width=(len(product) + 4))
+            e.grid(row=i, column=j)
+            e.insert(tk.END, product[j])
+        i = i + 1
+    tableFrameTab1.update()
+
 #Add Product Entry to Product Table
 def addProduct():
     # make sure customer ID has been entered
@@ -94,10 +137,12 @@ def addProduct():
     print(upQuery)
     dbCursor.execute(upQuery)
     db_connection.commit()  # NEED THIS IN ORDER TO ACTUALLY UPDATE CHANGES INTO DATABASE
+    showProductTable(tableFrameTab1)
 
 #Add Clothing Button
 tab1Btn = tk.Button(tab1left, command=lambda: addProduct(), text="Add Clothing", bg='#274D8B', fg='white',
                     font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
+
 
 # ---- Read (Tab 2) ----
 tab2left = tk.Frame(tab2, width=350)
