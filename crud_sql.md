@@ -2,9 +2,31 @@
 Below are the SQL statements used to perform CRUD functions for our application.
 
 ## Create
+The "Create Clothing" tab adds a record to the Product table. All entry fields are required to include Product Type, SupplierID, Size, Material, and Price. The code checks to ensure all entry fields have an input; otherwise, a pop-up window will execute stating to the user that all fields are required. 
+
+The full SQL statement with the TKinter get() function looks like this:
+
+"INSERT INTO Product (Type, SupplierID, Size, Material, Price) VALUES " + '("' + prodTypeEntry.get() + '","' + suppIDEntry.get() + '","' + sizeEntry.get() + '","' + materialEntry.get() + '","' + priceEntry.get() + '")'
+
+An example:
+    INSERT INTO Product (Type, SupplierID, Size, Material, Price) VALUES ("Shorts","2","XL","Nylon","14.99")
 
 ## Read
+The "Read Suppliers Info/Products" tab allows for the reading of two different tables, the Suppliers Table and the Product Table. 
 
+The first entry/button duo "Supplier ID _entry_ BTN: List Products From Supplier" allows a user to input a supplierID and be returned with a list of all product records that are connected to that specific supplierID.
+The Full SQL Statement looks like this:
+    "SELECT * FROM Product WHERE supplierID=%s" % (supplierIDEntry.get())
+An Example:
+    SELECT * FROM Product WHERE supplierID=1
+
+The second entry/button duo "Supplier Name _entry_ BTN: List Supplier Info" allows a user to input a supplierName and be returned the supplier Info corresponding to the name to include their address and # of products they have. 
+The Full SQL Statement looks like this:
+    "SELECT * FROM Suppliers WHERE supplierName=\"%s\"" % (supplierNameEntry.get())
+An Example:
+    SELECT * FROM Suppliers WHERE supplierName="Watson's Ties"
+
+Both buttons have an error check to ensure an entry is inputted before the button executes the SQL functions. These buttons are independent, and the user can use either button individually.
 ## Update
 
 The "Update customer info" tab updates one record from the Customers table. CustomerID is a required input to prevent changing all records, but FirstName, LasstName, and Address are all optional. The code will skip over empty entries, meaning that no record will update to empty cells if firstname, lastname, and address are left blank.
