@@ -8,8 +8,8 @@ import os
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password='StAnLoOnA5',
-    database='clothingStore'
+    password='SSRush49741301!',
+    database='clothingDatabase'
 )
 
 dbCursor = db_connection.cursor()
@@ -131,7 +131,7 @@ def addProduct():
     # make sure customer ID has been entered
     
     upQuery = "INSERT INTO Product (Type, SupplierID, Size, Material, Price) VALUES "
-    entries = [prodTypeEntry.get(), suppIDEntry.get(), sizeEntry.get(), materialEntry.get(), priceEntry.get()]
+    #entries = [prodTypeEntry.get(), suppIDEntry.get(), sizeEntry.get(), materialEntry.get(), priceEntry.get()]
 
     if (not (prodTypeEntry.get() and suppIDEntry.get() and sizeEntry.get() and materialEntry.get() and priceEntry.get())):
         messagebox.showinfo("Request not complete", "Please enter all fields")
