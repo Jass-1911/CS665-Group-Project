@@ -452,8 +452,88 @@ tab5right = tk.Frame(tab5, width=350)
 tab5left.pack(side='left', expand=True, fill='both')
 tab5right.pack(side='left', expand=True, fill='both')
 
+tab5rightTop = tk.Frame(tab5right, height = 225)
+tab5rightTop.pack(side='top', anchor='center')
+tab5rightBottom = tk.Frame(tab5right, height = 255)
+tab5rightBottom.pack(side='top', anchor='center', expand=True)
+
+tab5title = tk.Label(tab5rightTop, text="Results", font=('Arial', 16, 'bold')).pack(side='top', anchor='nw', pady=10)
+tab5headers = tk.Frame(tab5rightTop, padx=10)
+tab5col1 = tk.Entry(tab5headers,bg='#89CFF0',width=18)
+tab5col1.grid(row=0, column=0)
+tab5col1.insert(tk.END, "OrderID")
+tab5col3 = tk.Entry(tab5headers,bg='#89CFF0', width=18)
+tab5col3.grid(row=0, column=2)
+tab5col3.insert(tk.END, "Last Name")
+tab5col4 = tk.Entry(tab5headers,bg='#89CFF0', width=18)
+tab5col4.grid(row=0, column=3)
+tab5col4.insert(tk.END, "Address")
+tab5headers.pack(side='top')
+
+tableFrameTab5Top = tk.Frame(tab5rightTop)
+tableFrameTab5Top.pack(side='top')
+
+#JOIN Customer & Order
+#SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+#FROM Orders
+#INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+def joinCustOrd():
+    query = "SELECT Orders.OrderID, Customers.lastname, Customers.address FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID"
+    print(query)
+    dbCursor.execute(query)
+    results = dbCursor.fetchall()
+    print(results)
+    i = 0
+    for order in results:
+        for j in range(len(order)):
+            e5 = tk.Entry(tableFrameTab5Top, width=(len(order))+15)
+            e5.grid(row=i, column=j)
+            e5.insert(tk.END, order[j])
+        i = i + 1
+    tableFrameTab5Top.update()
+    db_connection.commit()
 
 
+tab5btn1 = tk.Button(tab5left, command = lambda: joinCustOrd(), text="Show Customer Info by OrderID", bg='#274D8B', fg='white',
+                    font=('Arial', 14, 'bold')).pack(side='top', anchor='nw', padx=10, pady=10)
+
+
+
+
+tab5headers2 = tk.Frame(tab5rightBottom)
+col512 = tk.Entry(tab5headers2,bg='#89CFF0',width=15)
+col512.grid(row=0, column=0)
+col512.insert(tk.END, "Supplier ID")
+col522 = tk.Entry(tab5headers2,bg='#89CFF0',width=15)
+col522.grid(row=0, column=1)
+col522.insert(tk.END, "Product ID")
+col532 = tk.Entry(tab5headers2,bg='#89CFF0', width=15)
+col532.grid(row=0, column=2)
+col532.insert(tk.END, "Type")
+tableFrameTab5Bottom = tk.Frame(tab5rightBottom)
+tab5headers2.pack(side='top')
+tableFrameTab5Bottom.pack(side='top')
+
+#JOIN Suppliers & Products
+def joinProductSuppliers():
+    query = "SELECT Suppliers.SupplierID, Product.ProductID, Product.Type FROM Suppliers INNER JOIN Product ON Suppliers.SupplierID = Product.SupplierID"
+    print(query)
+    dbCursor.execute(query)
+    results = dbCursor.fetchall()
+    print(results)
+    i = 0
+    for order in results:
+        for j in range(len(order)):
+            e5 = tk.Entry(tableFrameTab5Bottom, width=(len(order))+15)
+            e5.grid(row=i, column=j)
+            e5.insert(tk.END, order[j])
+        i = i + 1
+    tableFrameTab5Bottom.update()
+    db_connection.commit()
+
+
+tab5btn2 = tk.Button(tab5left, command = lambda: joinProductSuppliers(), text="Show Product Info by Supplier ID", bg='#274D8B', fg='white',
+                    font=('Arial', 14, 'bold')).pack(side='top', anchor='w', padx=10, pady=10)
 
 
 
