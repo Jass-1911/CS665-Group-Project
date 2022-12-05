@@ -1,3 +1,6 @@
+# -- Python program used to initially create tables, insert values, and manually execute SQL statements with Python
+# -- Can be used to locally recreate the database by uncommenting the appropriate lines and running.
+
 import mysql
 import mysql.connector
 import tkinter
@@ -11,7 +14,9 @@ db = mysql.connector.connect(
 
 dbCursor = db.cursor()
 
-#dbCursor.execute("DROP TABLE Suppliers")
+
+#--Creates the database
+#mycursor.execute("CREATE DATABASE testdb")
 
 #--Creating table operations
 # dbCursor.execute("CREATE TABLE Suppliers (SupplierID int NOT NULL PRIMARY KEY AUTO_INCREMENT, supplierName VARCHAR(50) NOT NULL, address VARCHAR(250), numOfProducts int)")
@@ -204,14 +209,9 @@ for x in dbCursor:
 # Q3 ="INSERT INTO Users(name,passwrd) VALUES (%s, %s)"
 #
 
-#top = tkinter.Tk()
-# Code to add widgets will go here...
-#top.mainloop()
 
 
 
-#print(mydb)
-#CREATE DATABASE testDB
-#CREATE TABLE table_name (
-    #PersonID int
-#)
+
+
+

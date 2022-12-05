@@ -4,10 +4,10 @@
 INSERT INTO Suppliers
 VALUES
   (100, "Watson's Ties", "500 Baker ST", 1),
-  (113, "Shopper's Wholesale", "1234 Blue Ave", 1),
-  (114, "Shoes In Bulk", "5120 Sneaker ST", 1),
-  (115, "Dresses For Success", "777 Lucky Blvd", 1)
-  (116, "The Shirt Depot", "987 34th ST", 1);
+  (101, "Shopper's Wholesale", "1234 Blue Ave", 1),
+  (102, "Shoes In Bulk", "5120 Sneaker ST", 1),
+  (103, "Dresses For Success", "777 Lucky Blvd", 1)
+  (104, "The Shirt Depot", "987 34th ST", 1);
 
 ## Product
 INSERT INTO Product
