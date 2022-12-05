@@ -1,3 +1,6 @@
+# This is our GUI app, created using Python's tkinter library. 
+# If you cannot remote connect to the database using the given credentials, you can use the code from ClothingDatabases.py to recreate the database on your device, and then enter your own credentials.
+
 import tkinter as tk
 import tkinter.ttk as ttk
 import mysql.connector
