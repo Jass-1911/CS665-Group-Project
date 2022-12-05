@@ -49,3 +49,19 @@ The "Delete orders" deletes a single order from the Orders table, given the Orde
 Here's an example of what the statement above could look like to MYSQL.
 
 `DELETE FROM Orders WHERE OrderID=5`
+
+## Predefined SQL Buttons
+
+The button "Show Customer Info by OrderID" does an INNER JOIN between the Orders and Customers tables to be able to grab customer info and connect it with their specific order ID.
+
+The SQL Statement:
+    "SELECT Orders.OrderID, Customers.lastname, Customers.address FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID"
+An example of the fetched results:
+    [(3, 'Smith', '200 Something Ave')]
+
+The button "Show Product Info by SupplierID" does an INNER JOIN between the Product and Suppliers tables to be able to show the productID's and Types of Products associated with each SupplierID.
+
+The SQL Statement:
+    SELECT Suppliers.SupplierID, Product.ProductID, Product.Type FROM Suppliers INNER JOIN Product ON Suppliers.SupplierID = Product.SupplierID
+An example of the fetched results:
+    [(1, 9, 'T-Shirt')]
