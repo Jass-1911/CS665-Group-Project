@@ -9,7 +9,7 @@ View the GitHub repository at https://github.com/jennycpero/CS665-Group-Project
 - Anna Thomas, [lesserpandeu](https://github.com/lesserpandeu)
 - Sakshi Yadav, [Jass-1911](https://github.com/Jass-1911)
 
-#Demo video Link:
+# Demo video Link:
 https://www.youtube.com/watch?v=V2ggURAjf98&ab_channel=MidnightVoyage
 
 
